@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h2>Cloud Backup System</h2>
+
+<input type="file" id="file">
+
+<button onclick="backup()">Backup File</button>
+
+<script>
+
+async function backup(){
+
+const file=document.getElementById("file").files[0];
+
+const formData=new FormData();
+
+formData.append("file",file);
+
+await fetch("http://localhost:3000/backup",{
+method:"POST",
+body:formData
+});
+
+alert("Backup Completed");
+
+}
+
+</script>
+
+</body>
+
+</html>
