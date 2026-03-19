@@ -1,35 +1,347 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloud Backup System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #06b6d4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 950px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .left {
+      padding: 50px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .highlight {
+      color: #fde68a;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.88);
+      margin-bottom: 30px;
+      max-width: 520px;
+    }
+
+    .features {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .feature {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .upload-card {
+      background: white;
+      color: #0f172a;
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18);
+    }
+
+    .upload-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .upload-text {
+      color: #475569;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .file-box {
+      border: 2px dashed #93c5fd;
+      background: #eff6ff;
+      border-radius: 18px;
+      padding: 28px;
+      text-align: center;
+      transition: 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .file-box:hover {
+      transform: translateY(-2px);
+      border-color: #2563eb;
+    }
+
+    .file-box label {
+      display: inline-block;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.3s;
+      margin-bottom: 14px;
+    }
+
+    .file-box label:hover {
+      opacity: 0.92;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    #fileName {
+      display: block;
+      font-size: 14px;
+      color: #334155;
+      margin-top: 6px;
+      word-break: break-word;
+    }
+
+    .backup-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0f172a, #2563eb);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .backup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .status {
+      margin-top: 18px;
+      font-size: 14px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .right {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 40px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stats-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .stats-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      background: rgba(255, 255, 255, 0.12);
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .stat h3 {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .stat p {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .progress-section {
+      margin-top: 24px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 68%;
+      height: 100%;
+      background: linear-gradient(90deg, #fde68a, #f59e0b);
+      border-radius: 999px;
+    }
+
+    @media (max-width: 850px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .left, .right {
+        padding: 30px 24px;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
 <body>
 
-<h2>Cloud Backup System</h2>
+  <div class="container">
+    <div class="left">
+      <div class="badge">Secure Cloud Storage</div>
+      <h1>Smart <span class="highlight">Cloud Backup</span> for Your Files</h1>
+      <p class="subtitle">
+        Upload and protect your important documents, images, and project files with a modern and secure cloud backup interface.
+      </p>
 
-<input type="file" id="file">
+      <div class="features">
+        <div class="feature">Fast Upload</div>
+        <div class="feature">Secure Storage</div>
+        <div class="feature">Easy Recovery</div>
+      </div>
 
-<button onclick="backup()">Backup File</button>
+      <div class="upload-card">
+        <h2 class="upload-title">Backup Your File</h2>
+        <p class="upload-text">Choose a file from your computer and upload it safely to your cloud storage.</p>
 
-<script>
+        <div class="file-box">
+          <label for="fileInput">Choose File</label>
+          <input type="file" id="fileInput" />
+          <span id="fileName">No file selected</span>
+        </div>
 
-async function backup(){
+        <button class="backup-btn" onclick="backupFile()">Backup Now</button>
+        <div class="status" id="statusMsg"></div>
+      </div>
+    </div>
 
-const file=document.getElementById("file").files[0];
+    <div class="right">
+      <div class="stats-card">
+        <div class="stats-title">Backup Overview</div>
 
-const formData=new FormData();
+        <div class="stat">
+          <h3>Total Files</h3>
+          <p>128</p>
+        </div>
 
-formData.append("file",file);
+        <div class="stat">
+          <h3>Storage Used</h3>
+          <p>68 GB</p>
+        </div>
 
-await fetch("http://localhost:3000/backup",{
-method:"POST",
-body:formData
-});
+        <div class="stat">
+          <h3>Last Backup</h3>
+          <p>Today</p>
+        </div>
 
-alert("Backup Completed");
+        <div class="progress-section">
+          <div class="progress-label">
+            <span>Storage Capacity</span>
+            <span>68%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-}
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+    const statusMsg = document.getElementById("statusMsg");
 
-</script>
+    fileInput.addEventListener("change", function () {
+      if (fileInput.files.length > 0) {
+        fileName.textContent = fileInput.files[0].name;
+      } else {
+        fileName.textContent = "No file selected";
+      }
+    });
+
+    function backupFile() {
+      if (fileInput.files.length === 0) {
+        statusMsg.style.color = "red";
+        statusMsg.textContent = "Please choose a file first.";
+        return;
+      }
+
+      statusMsg.style.color = "green";
+      statusMsg.textContent = "File selected successfully. Ready for backup.";
+    }
+  </script>
 
 </body>
-
 </html>
